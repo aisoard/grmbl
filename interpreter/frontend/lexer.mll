@@ -24,7 +24,6 @@ rule token = parse
 	(* Keywords *)
 	| "import"    { IMPORT    }
 	| "from"      { FROM      }
-	| character * { STRING    }
 	| "inputs"    { INPUTS    }
 	| "outputs"   { OUTPUTS   }
 	| "blocks"    { BLOCKS    }
@@ -35,6 +34,9 @@ rule token = parse
 
 	(* Identifier *)
 	| identifier as id     { IDENTIFIER id      }
+
+	(* Characters *)
+	| character* as s { STRING s }
 
 	(* Special *)
 	| blank+              { token lexbuf                  }

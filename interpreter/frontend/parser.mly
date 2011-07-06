@@ -9,7 +9,9 @@
 %token IMPORT FROM
 %token INPUTS OUTPUTS BLOCKS
 %token CONNEXION TO DOT END
+%token EOF
 
+%nonassoc EOF
 %nonassoc CONNEXION TO DOT END
 %nonassoc INPUTS OUTPUTS
 %nonassoc IMPORT FROM
@@ -19,10 +21,10 @@
 %nonassoc IDENTIFIER
 
 %start program
-%type <Definitions.abstract_syntax_tree> program
+%type <Definitions.ast> program
 
 %%
-program: dependencies blocks { $1,$2 };
+program: dependencies blocks EOF { $1,$2 };
 
 dependencies:
 	| dependency dependencies { $1::$2 }
