@@ -1,5 +1,5 @@
 %{
-	open Frontend.Definitions
+	open Definitions
 %}
 
 %token <string> IDENTIFIER STRING

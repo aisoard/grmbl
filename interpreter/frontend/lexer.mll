@@ -1,6 +1,6 @@
 {
-	open Frontend.Definitions
-	open Frontend.Parser
+	open Definitions
+	open Parser
 }
 
 let blank = [' ' '\t' '\r' '\n']
