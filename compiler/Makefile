@@ -3,6 +3,6 @@
 all:
 
 clean:
-	@rm -r -f *~
+	@rm -v -f *~
 
 reset: clean
