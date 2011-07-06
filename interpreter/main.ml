@@ -1,2 +1,2 @@
 let _ = print_endline "Grmbl !";;
-let _ = Parser.program Lexing.token stdin;;
+let _ = Frontend.Parser.program Frontend.Lexer.token stdin;;

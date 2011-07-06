@@ -26,33 +26,7 @@ module Strmap = Map.Make (String);;
 
 (*** types ***)
 (* syntax_tree *)
-type ast_t =
-   (* let rec lists *)
-   | Let of bool * (ast_t * ast_t) list * ast_t
-   (* pattern *)
-   | Tuple of ast_t list
-   (* ctrl structs *)
-   | If of ast_t * ast_t * ast_t
-   | While of ast_t * ast_t
-   | For_inc of ast_t * ast_t * ast_t * ast_t
-   | For_dec of ast_t * ast_t * ast_t * ast_t
-   | Sequence of ast_t * ast_t
-   (* pattern matching *)
-   | Function of ast_t list
-   | Apply of ast_t * ast_t
-   | Pattern of ast_t * ast_t * ast_t
-   (* const *)
-   | Constructor of ast_t * ast_t
-   | Unit
-   | Int of int
-   | Char of char
-   | String of string
-   | Bool of bool
-   (* identifiers *)
-   | Underscore
-   | Empty_list
-   | Ident of string
-;;
+type abstract_syntax_tree = ((string list * string) list) * (string * (string * string) list * (string * string) list * (string * string) list * ((string * string) * string list * (string * string)));;
 
 (* type system *)
 type type_t =

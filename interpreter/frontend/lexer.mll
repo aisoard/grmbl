@@ -8,6 +8,10 @@ let blank = [' ' '\t' '\r' '\n']
 let identifier = ['a'-'z']
 	| ['a'-'z']['a'-'z' '-']*['a'-'z']
 
+let character = [^'"' '\\']
+	| '\\' ['"' '\\' 'n' 'b' 'r' 't' 'v']
+	| '\\' ['0'-'9' 'A'-'F']['0'-'9' 'A'-'F']
+
 rule token = parse
 	(* Blocks *)
 	| '('       { START_TYPE  }
@@ -20,16 +24,17 @@ rule token = parse
 	(* Keywords *)
 	| "import"    { IMPORT    }
 	| "from"      { FROM      }
+	| character * { STRING    }
 	| "inputs"    { INPUTS    }
 	| "outputs"   { OUTPUTS   }
 	| "blocks"    { BLOCKS    }
 	| "connexion" { CONNEXION }
 	| "->"        { TO        }
+	| "."         { DOT       }
 	| ";"         { END       }
 
 	(* Identifier *)
 	| identifier as id     { IDENTIFIER id      }
-	| metaidentifier as id { META_IDENTIFIER id }
 
 	(* Special *)
 	| blank+              { token lexbuf                  }
