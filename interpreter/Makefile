@@ -1,8 +1,14 @@
-.PHONY: all clean reset
+.PHONY: all clean reset native
 
-all:
+BUILDTOOL=ocamlbuild
 
+all: native
+
+native:
+	$(BUILDTOOL).$@ main.$@
+	
 clean:
-	@rm -r -f *~
+	@$(BUILDTOOL) -clean
+	@rm -vf *~
 
 reset: clean
