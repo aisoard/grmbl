@@ -7,18 +7,18 @@
 %token START_TOKEN END_TOKEN
 %token START_BLOCK END_BLOCK
 %token IMPORT FROM
-%token INPUTS OUTPUTS BLOCKS
-%token CONNEXION TO DOT END
+%token INPUTS OUTPUTS BLOCKS OF
+%token CONNEXION THROUGH TO DOT END
 %token EOF
 
 %nonassoc EOF
 %nonassoc CONNEXION TO DOT END
-%nonassoc INPUTS OUTPUTS
+%nonassoc INPUTS OUTPUTS OF
 %nonassoc IMPORT FROM
 %nonassoc START_BLOCK END_BLOCK
 %nonassoc START_TOKEN END_TOKEN
 %nonassoc START_TYPE END_TYPE
-%nonassoc IDENTIFIER
+%nonassoc IDENTIFIER STRING
 
 %start program
 %type <Definitions.ast> program
@@ -46,12 +46,12 @@ blocks:
 block:
 	IDENTIFIER
 	START_BLOCK
-	INPUTS typed_identifiers END
-	OUTPUTS typed_identifiers END
-	BLOCKS typed_identifiers END
+	INPUTS OF typed_identifiers END
+	OUTPUTS OF typed_identifiers END
+	BLOCKS OF typed_identifiers END
 	connexions
 	END_BLOCK
-	{ $1, $4, $7, $10, $12 }
+	{ $1, $5, $9, $13, $15 }
 ;
 
 typed_identifiers:
@@ -65,8 +65,7 @@ connexions:
 ;
 
 connexion:
-	| CONNEXION port TO port END        { $2,[],$4 }
-	| CONNEXION port TO tokens port END { $2,$4,$5 }
+	| CONNEXION OF port tokens TO port END { $3,$4,$6 }
 ;
 
 port:
@@ -74,7 +73,7 @@ port:
 ;
 
 tokens:
-	| IDENTIFIER TO tokens { $1::$3 }
-	|                      { [] }
+	| THROUGH IDENTIFIER tokens { $2::$3 }
+	|                           { [] }
 ;
 %%

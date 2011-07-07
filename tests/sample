@@ -1,0 +1,11 @@
+import sample from "mysample";
+
+myblock {
+	inputs: left(int) right(int);
+	outputs: middle(int);
+	blocks: operator(sample);
+
+	connexion: myblock.left -> operator.a;
+	connexion: myblock.right -> operator.b;
+	connexion: operator.o -> myblock.middle;
+}
