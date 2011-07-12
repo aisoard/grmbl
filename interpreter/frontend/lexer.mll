@@ -24,24 +24,27 @@ rule token = parse
 	(* Keywords *)
 	| "import"    { IMPORT    }
 	| "from"      { FROM      }
-	| character * { STRING    }
 	| "inputs"    { INPUTS    }
 	| "outputs"   { OUTPUTS   }
 	| "blocks"    { BLOCKS    }
 	| "connexion" { CONNEXION }
+	| ":"         { OF }
+	| "--"        { THROUGH   }
 	| "->"        { TO        }
 	| "."         { DOT       }
 	| ";"         { END       }
 
 	(* Identifier *)
-	| identifier as id     { IDENTIFIER id      }
+	| identifier as id { IDENTIFIER id }
+
+	(* Characters *)
+	| '"' (character* as s) '"' { STRING s }
 
 	(* Special *)
 	| blank+              { token lexbuf                  }
 	| "(*"                { comment lexbuf ; token lexbuf }
 	| "*)"                { raise (Comment_mismatch)      }
 	| eof                 { EOF                           }
-	| (_ # blank)* as bug { raise (Unrecognized bug)      }
 
 and comment = shortest
 	(* Comments *)
