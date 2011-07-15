@@ -1,5 +1,7 @@
 # vim: syntax=grmbl
 
+import: nothing from "nowhere";
+
 pipe {
 	inputs: type(_);
 

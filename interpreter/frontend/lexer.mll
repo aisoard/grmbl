@@ -19,8 +19,6 @@ rule token = parse
 	(* Blocks *)
 	| '('       { START_TYPE  }
 	| ')'       { END_TYPE    }
-	| '['       { START_TOKEN }
-	| ']'       { END_TOKEN   }
 	| '{'       { START_BLOCK }
 	| '}'       { END_BLOCK   }
 
