@@ -42,13 +42,6 @@ rule token = parse
 	| '"' (character* as s) '"' { STRING s }
 
 	(* Special *)
-	| blank+              { token lexbuf                  }
-	| "(*"                { comment lexbuf ; token lexbuf }
-	| "*)"                { raise (Comment_mismatch)      }
-	| eof                 { EOF                           }
-
-and comment = shortest
-	(* Comments *)
-	| _* "(*"   { comment lexbuf ; comment lexbuf }
-	| _* "*)"   { ()                              }
-	| _* eof    { raise (Comment_mismatch)        }
+	| blank+              { token lexbuf }
+	| "#" [^'\n']         { token lexbuf }
+	| eof                 { EOF          }
