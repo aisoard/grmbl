@@ -3,11 +3,14 @@
 	open Parser
 }
 
+(* Blank/Ignored characters *)
 let blank = [' ' '\t' '\r' '\n']
 
+(* Identifiers *)
 let identifier = ['a'-'z']
 	| ['a'-'z']['a'-'z' '-']*['a'-'z']
 
+(* Characters for string *)
 let character = [^'"' '\\']
 	| '\\' ['"' '\\' 'n' 'b' 'r' 't' 'v']
 	| '\\' ['0'-'9' 'A'-'F']['0'-'9' 'A'-'F']
