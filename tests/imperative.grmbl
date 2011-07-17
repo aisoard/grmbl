@@ -1,0 +1,48 @@
+# vim: syntax=grmbl
+
+nil {}
+
+block {
+	inputs: start(context);
+	outputs: end(context);
+}
+
+sequence {
+	inputs: start(context);
+	outputs: end(context);
+
+	inputs: first(block) second(block);
+
+	connexion: start -> first.start;
+	connexion: first.end -> second.start;
+	connexion: second.end -> end;
+}
+
+if {
+	inputs: condition(bool) true_body(block) false_body(block);
+
+	connexion: condition.true -> body_true.start;
+	connexion: condition.false -> body_false.start;
+
+	outputs: true_end(context) false_end(context);
+
+	connexion: true_body.end -> true_end;
+	connexion: false_body.end -> false_end;
+}
+
+while {
+	inputs: condition(expression) body(block);
+	blocks: if(if) id(identity);
+
+	connexion: condition.value -> if.condition;
+	connexion: if.true_end -> condition.start;
+
+	connexion: body -> if.body_true;
+	connexion: id -> if.body_false;
+
+	inputs: start(context);
+	outputs: end(context);
+
+	connexion: start -> condition.start;
+	connexion: if.false_end -> end;
+}
