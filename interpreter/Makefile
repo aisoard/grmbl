@@ -1,26 +1,21 @@
 .PHONY: all clean reset native
 
-build_tool_base=ocamlbuild
-build_dir=build
+build_tool=ocamlbuild
 
-# list of dir
-dir_list=frontend
+build_options=-classic-display
+#build_options+=-build-dir build
+#build_options+=-install-bin-dir bin
+#build_options+=-install-lib-dir lib
 
-dir_options=$(foreach dir, $(dir_list), -I $(dir))
+build_options+=-Is interface,frontend
 
-build_tool=$(build_tool_base) \
-			 -build-dir $(build_dir) \
-			 -classic-display \
-			 $(dir_options)
-
-target=native
-
+target=main.native
 
 all:
-	$(build_tool) main.$(target)
+	$(build_tool) $(build_options) $(target)
 	
 clean:
-	@$(build_tool) -clean
 	@rm -vf *~
 
 reset: clean
+	$(build_tool) $(build_options) -clean

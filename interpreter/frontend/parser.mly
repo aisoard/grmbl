@@ -31,7 +31,7 @@ dependencies:
 	|                         { [] }
 ;
 
-dependency: IMPORT identifiers FROM STRING END { $2,$4 };
+dependency: IMPORT OF identifiers FROM STRING END { $2,$4 };
 
 identifiers:
 	| IDENTIFIER identifiers { $1::$2 }
@@ -69,6 +69,7 @@ connexion:
 ;
 
 port:
+	| IDENTIFIER                { $1,"" }
 	| IDENTIFIER DOT IDENTIFIER { $1,$3 }
 ;
 

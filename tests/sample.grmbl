@@ -1,0 +1,43 @@
+# vim: syntax=grmbl
+
+import: nothing from "nowhere";
+
+pipe {
+	inputs: type(_);
+
+	inputs: input(type);
+	outputs: output(type);
+}
+
+sequence {
+	inputs: type(_);
+	blocks: wire(pipe);
+
+	connexion: type -> wire.type;
+
+	inputs: first_block(wire) second_block(wire);
+
+	inputs: input(type);
+	outputs: output(type);
+
+	connexion: input -> first_block.input;
+	connexion: first_block.output -> second_block.input;
+	connexion: second_block.output -> output;
+}
+
+parallel {
+	inputs: type(_);
+	blocks: wire(wire);
+
+	connexion: type -> wire.type;
+
+	inputs: left_block(wire) right_block(wire);
+
+	inputs: input_left(type) input_right(type);
+	outputs: output_left(type) output_right(type);
+
+	connexion: input_left -> left_block.input;
+	connexion: input_right -> right_block.input;
+	connexion: left_block.output -> output_left;
+	connexion: right_block.output -> output_right;
+}

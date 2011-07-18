@@ -3,11 +3,14 @@
 	open Parser
 }
 
+(* Blank/Ignored characters *)
 let blank = [' ' '\t' '\r' '\n']
 
+(* Identifiers *)
 let identifier = ['a'-'z']
 	| ['a'-'z']['a'-'z' '-']*['a'-'z']
 
+(* Characters for string *)
 let character = [^'"' '\\']
 	| '\\' ['"' '\\' 'n' 'b' 'r' 't' 'v']
 	| '\\' ['0'-'9' 'A'-'F']['0'-'9' 'A'-'F']
@@ -16,8 +19,6 @@ rule token = parse
 	(* Blocks *)
 	| '('       { START_TYPE  }
 	| ')'       { END_TYPE    }
-	| '['       { START_TOKEN }
-	| ']'       { END_TOKEN   }
 	| '{'       { START_BLOCK }
 	| '}'       { END_BLOCK   }
 
@@ -41,13 +42,6 @@ rule token = parse
 	| '"' (character* as s) '"' { STRING s }
 
 	(* Special *)
-	| blank+              { token lexbuf                  }
-	| "(*"                { comment lexbuf ; token lexbuf }
-	| "*)"                { raise (Comment_mismatch)      }
-	| eof                 { EOF                           }
-
-and comment = shortest
-	(* Comments *)
-	| _* "(*"   { comment lexbuf ; comment lexbuf }
-	| _* "*)"   { ()                              }
-	| _* eof    { raise (Comment_mismatch)        }
+	| blank+              { token lexbuf }
+	| "#" [^'\n']         { token lexbuf }
+	| eof                 { EOF          }
