@@ -1,0 +1,72 @@
+Program-file written in sections :
+1. Include section
+2. Data-structure section
+3. Parameter section
+4. I/O section
+5. Black-box section
+6. Graph section
+7. Flow section
+
+
+Definition of each section :
+1. Include section :
+	- List all basic-blocks featured by the GRMBL interpeter that will be used. This allows for an interpeter to include different basic blocks, eventhough a certain minimalistic set should be compulsory. This can include a library including multiple basic-blocks within itself.
+	- The goal is to allow the interpeter to load only the strict minimalistic support that a program requires to limit memory usage and other processing overhead.
+
+
+2. Data-structure section :
+	- Define the representations and meta-structures in which the data will be vehiculed along the dataflow of the program.
+	- Should allow for C-like structs with fields
+	- Maybe C++-like classes but (initially atleast) without methods.
+	
+	REMARK : At this point of the program-file no black-boxes have been defined. So there is a recursive definition problem because a method would need to have full knowledge of data-structures that have not yet been defined because the method has not yet been defined because... A possible solution would be to use a 'header' file defining the type of the methods.
+	
+	QUESTION : Arrays. Should they be implicit types with pointers or explicit structures or chained lists to make for a 'pure' dataflow style ?
+
+
+3. Parameter section
+	- Constants that are used within the program-file should be defined here.
+	- Each constant that is defined is represented by an artificial parameter-bloc that generates the given constant and output it on a single output-connector.
+
+
+4. I/O section :
+	- Define the communications with I/O interfaces.
+	- Define how data should be read from an interface.
+	- The channels correspond to a special category of basic-blocks, I/O-blocks, of pre-determined form : 1 input-connector OR 1 output-connector.
+	- INPUT channel basic-blocks additionally have two flow-control "signal" connectors named 'do-input' and 'input-done' that enable coördination between INPUT blocks to prevent out-of-order input flows.
+	- An 'input-done' can only be connected to a 'do-input' slot. In case of conditional branching influencing the order of input one can use a basic-block that has two output-connectors and one output-connector that defines which output-connectors is taken by the 'input-done' slot.
+
+	IDEA : I/O's are done through channels. A channel is defined by :
+		* Direction :input OR output.
+		* Associated data-structure : a given channel can only I/O a single type of data-structure which is in fact just a fixed way of interpreting the bitstream.
+	Multiple channels can be mapped to the same (virtual) hardware interface : stdin, stdout, /dev/***, etc...
+
+
+5. Black-box section :
+	- Define black-boxes based on basic-blocs and other black-boxes.
+	- A black-box may use use parameter-blocks.
+	- A black-box may NOT use I/O-blocks!
+	- A black-box may have an arbitrary strictly positive number of input and/or output connectors.
+	- All input connectors of internal basic-blocs and black-boxes MUST be connected to safe-guard from explicit deadlock situations.
+	- Output connectors of internal blocs and boxes may or may not be connected.
+
+
+6. Graph section
+	- Define 'function'-like graphs.
+	- A graph may use parameter-blocks.
+	- A graph may NOT use I/O blocks!
+	- A graph may 'call' another-graph a possibly infinite number of times and 'call'-cycles (A calls B calls C ... calls Z calls A) are authorized allowing for recursive programming. It should be noted that black-boxes alone do not allow for recursive programming, which among other arguments justifies this extra level of data-flow structures.
+	- When a graph is called by another graph all it's input-connectors MUST receive a connection of the callee. Only 'top-level' graphs, that is to say the definition instances of the graphs that are defined within this section, are an exception to this rule as they have no knowledge of any higher-level structure.
+	- A graph may use whatever basic-blocks that have been included in Section 1. as well as any black-box that has been defined in Section 4.
+	- A graph must have atleast one input-connector and one output-connector.
+
+
+7. Flow section
+	- Compose the final program called the 'Flow'.
+	- The 'Flow' is composed of atleast one standard 'initiatior'-block that has an arbitrary number of ouput-connectors corresponding to the arguments given to the program at runtime.
+	- The 'Flow' may use in a mixed fashion basic-blocs, I/O-blocks, parameter-blocks, black-boxes and graphs.
+	- All input-connectors should receive a connection.
+
+
+
+Copyright 2011, Duco van Amstel
