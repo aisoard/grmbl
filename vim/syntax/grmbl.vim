@@ -59,7 +59,7 @@ syntax keyword grmblFromKeyword from contained
 syntax region grmblImportFile start=+"+ end=+"+ contained
 
 " Comments
-syntax match grmblComment "^#.*$" contains=grmblTodo
+syntax match grmblComment "#.*$" contains=grmblTodo
 syntax keyword grmblTodo TODO FIXME XXX NOTE contained
 
 
