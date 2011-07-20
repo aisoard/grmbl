@@ -27,7 +27,7 @@ sequence {
 
 parallel {
 	inputs: type(_);
-	blocks: wire(wire);
+	blocks: wire(pipe);
 
 	connexion: type -> wire.type;
 
