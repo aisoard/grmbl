@@ -26,7 +26,7 @@ Definition of each section :
 
 3. Parameter section
 	- Constants that are used within the program-file should be defined here.
-	- Each constant that is defined is represented by an artificial parameter-bloc that generates the given constant and output it on a single output-connector.
+	- Each constant that is defined is represented by an artificial parameter-bloc that generates the given constant and outputs it on a single output-connector.
 
 
 4. I/O section :
@@ -44,11 +44,13 @@ Definition of each section :
 
 5. Black-box section :
 	- Define black-boxes based on basic-blocs and other black-boxes.
-	- A black-box may use use parameter-blocks.
+	- A black-box may use parameter-blocks.
 	- A black-box may NOT use I/O-blocks!
 	- A black-box may have an arbitrary strictly positive number of input and/or output connectors.
 	- All input connectors of internal basic-blocs and black-boxes MUST be connected to safe-guard from explicit deadlock situations.
 	- Output connectors of internal blocs and boxes may or may not be connected.
+	- It should be noted that a black-box has NO control over what is done with it's input and output connectors.
+	- Black-boxes may not induce 'call'-cycles
 
 
 6. Graph section
