@@ -1,8 +1,11 @@
 .PHONY: all clean reset
 
-all:
+lexer: lexer.ll
+	flex lexer.ll
+
+all: lexer
 
 clean:
-	@rm -v -f *~
+	@rm -v -f *~ lex.yy.c
 
 reset: clean
